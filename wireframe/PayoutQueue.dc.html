@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f5f9; }
+    .btn-primary { background: #312e81; color: #fff; border: none; border-radius: 3px; padding: 7px 14px; font-size: 11px; font-weight: 600; cursor: pointer; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; }
+    .stat-card { background:#fff; border:1px solid #e2e8f0; border-radius:6px; padding:12px 14px; display:flex; flex-direction:column; gap:4px; flex:1; }
+    .stat-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; color: #94a3b8; }
+    .stat-val { font-size: 17px; font-weight: 800; color: #0f172a; }
+  </style>
+</helmet>
+<div style="display:flex; width:900px; height:600px; box-sizing:border-box;">
+  <div style="width:180px; flex-shrink:0; background:#1e1b4b; padding:20px 0; display:flex; flex-direction:column; gap:4px;">
+    <div style="color:#fff; font-weight:700; font-size:15px; padding:0 20px 4px;">Ticketing</div>
+    <div style="color:#a5b4fc; font-size:10px; font-weight:700; letter-spacing:.05em; padding:0 20px 16px;">ADMIN</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Overview</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Organizers</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">KYC Queue</div>
+    <div style="color:#fff; background:#312e81; padding:9px 20px; font-size:12px; font-weight:600; border-left:3px solid #fff;">Payouts</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Audit Log</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Disputes</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Settings</div>
+  </div>
+  <div style="flex:1; display:flex; flex-direction:column; padding:24px 32px; gap:14px; box-sizing:border-box; overflow:hidden;">
+    <div style="font-size:19px; font-weight:700; color:#0f172a;">Commission & Payout Queue</div>
+    <div style="display:flex; gap:16px;">
+      <div class="stat-card"><div class="stat-lbl">Owed This Cycle</div><div class="stat-val">Rp 312,400,000</div></div>
+      <div class="stat-card"><div class="stat-lbl">Organizer Awaiting Payout</div><div class="stat-val">18</div></div>
+      <div class="stat-card"><div class="stat-lbl">Last Payout Run</div><div class="stat-val">14 Aug 2026</div></div>
+    </div>
+    <div class="card" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+      <div style="display:flex; padding:8px 16px; font-size:10px; text-transform:uppercase; color:#94a3b8; border-bottom:1px solid #f1f5f9;">
+        <div style="width:25%;">Organizer</div><div style="width:20%;">Bank Account</div><div style="width:20%;">Amount Owed</div><div style="width:20%;">Last Paid</div><div style="width:15%;"></div>
+      </div>
+      <sc-for list="{{rows}}" as="p" hint-placeholder-count="4">
+        <div style="display:flex; align-items:center; padding:11px 16px; font-size:12px; color:#334155; border-bottom:1px solid #f8fafc;">
+          <div style="width:25%; font-weight:600;">{{p.name}}</div>
+          <div style="width:20%; color:#64748b;">{{p.bank}}</div>
+          <div style="width:20%; font-weight:700;">{{p.amount}}</div>
+          <div style="width:20%; color:#94a3b8;">{{p.lastPaid}}</div>
+          <div style="width:15%;"><button class="btn-primary">Mark Paid</button></div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      rows: [
+        { name: 'Aquila Events', bank: 'BCA ••• 4821', amount: 'Rp 203,850,000', lastPaid: '14 Jul 2026' },
+        { name: 'Java Live Concerts', bank: 'Mandiri ••• 1092', amount: 'Rp 87,200,000', lastPaid: '14 Jul 2026' },
+        { name: 'Kopi Konf Studio', bank: 'BNI ••• 7745', amount: 'Rp 18,900,000', lastPaid: 'Never' },
+        { name: 'Bandung Book Fair', bank: 'BCA ••• 3310', amount: 'Rp 2,450,000', lastPaid: 'Never' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

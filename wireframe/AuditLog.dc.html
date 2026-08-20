@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f5f9; }
+    .field { border: 1px solid #cbd5e1; border-radius: 3px; background: #fff; padding: 8px 10px; font-size: 12px; color: #94a3b8; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; }
+    .tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 3px; background:#eef2ff; color:#4338ca; }
+  </style>
+</helmet>
+<div style="display:flex; width:900px; height:600px; box-sizing:border-box;">
+  <div style="width:180px; flex-shrink:0; background:#1e1b4b; padding:20px 0; display:flex; flex-direction:column; gap:4px;">
+    <div style="color:#fff; font-weight:700; font-size:15px; padding:0 20px 4px;">Ticketing</div>
+    <div style="color:#a5b4fc; font-size:10px; font-weight:700; letter-spacing:.05em; padding:0 20px 16px;">ADMIN</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Overview</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Organizers</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">KYC Queue</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Payouts</div>
+    <div style="color:#fff; background:#312e81; padding:9px 20px; font-size:12px; font-weight:600; border-left:3px solid #fff;">Audit Log</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Disputes</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Settings</div>
+  </div>
+  <div style="flex:1; display:flex; flex-direction:column; padding:24px 32px; gap:14px; box-sizing:border-box; overflow:hidden;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="font-size:19px; font-weight:700; color:#0f172a;">Audit Log</div>
+      <div style="display:flex; gap:8px;">
+        <div class="field">Admin ▾</div>
+        <div class="field">Action Type ▾</div>
+        <div class="field">Date Range ▾</div>
+      </div>
+    </div>
+    <div class="card" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+      <div style="display:flex; padding:8px 16px; font-size:10px; text-transform:uppercase; color:#94a3b8; border-bottom:1px solid #f1f5f9;">
+        <div style="width:16%;">Time</div><div style="width:18%;">Admin</div><div style="width:26%;">Action</div><div style="width:22%;">Target</div><div style="width:18%;">Note</div>
+      </div>
+      <sc-for list="{{logs}}" as="l" hint-placeholder-count="6">
+        <div style="display:flex; align-items:center; padding:9px 16px; font-size:11px; color:#334155; border-bottom:1px solid #f8fafc;">
+          <div style="width:16%; color:#94a3b8;">{{l.time}}</div>
+          <div style="width:18%; font-weight:600;">{{l.admin}}</div>
+          <div style="width:26%;"><span class="tag">{{l.action}}</span></div>
+          <div style="width:22%; color:#64748b;">{{l.target}}</div>
+          <div style="width:18%; color:#94a3b8;">{{l.note}}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      logs: [
+        { time: '10:42', admin: 'siti@platform.id', action: 'KYC Approved', target: 'Aquila Events', note: '—' },
+        { time: '09:15', admin: 'budi@platform.id', action: 'Payout Marked Paid', target: 'Java Live Concerts', note: 'Ref #PO-2208' },
+        { time: 'Yesterday', admin: 'siti@platform.id', action: 'Organizer Suspended', target: 'Bad Actor Events', note: 'Fraud report' },
+        { time: 'Yesterday', admin: 'budi@platform.id', action: 'Force Refund', target: 'Order #0042', note: 'Dispute #112' },
+        { time: '2 days ago', admin: 'siti@platform.id', action: 'KYC Rejected', target: 'XYZ Studio', note: 'Doc unreadable' },
+        { time: '3 days ago', admin: 'budi@platform.id', action: 'Event Unpublished', target: 'Suspicious Fest', note: 'Policy violation' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

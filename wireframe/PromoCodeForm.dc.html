@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f5f9; }
+    .lbl { font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+    .field { border: 1px solid #cbd5e1; border-radius: 3px; background: #fff; padding: 9px 10px; font-size: 12px; color: #94a3b8; }
+    .btn-primary { background: #334155; color: #fff; border: none; border-radius: 3px; padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .chip { font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 3px; background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; }
+  </style>
+</helmet>
+<div style="width:900px; height:600px; box-sizing:border-box; display:flex; flex-direction:column; background:#f1f5f9;">
+  <div style="padding:20px 32px; border-bottom:1px solid #e2e8f0; background:#fff; display:flex; flex-direction:column; gap:4px;">
+    <div style="font-size:11px; color:#94a3b8;">Dashboard / Events / DevConf Jakarta 2026 / <span style="color:#334155; font-weight:600;">Promo Codes</span></div>
+    <div style="font-size:19px; font-weight:700; color:#0f172a;">Promo Codes</div>
+  </div>
+  <div style="flex:1; padding:24px 32px; display:flex; flex-direction:column; gap:12px; overflow:hidden;">
+    <sc-for list="{{codes}}" as="c" hint-placeholder-count="1">
+      <div class="card" style="padding:14px 16px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <div style="font-size:13px; font-weight:700; color:#1e293b;">{{c.code}}</div>
+          <div style="display:flex; gap:6px;"><span class="chip">{{c.discount}}</span><span class="chip">{{c.scope}}</span></div>
+        </div>
+        <div style="text-align:right; font-size:11px; color:#94a3b8;">Used {{c.used}} / {{c.max}}</div>
+      </div>
+    </sc-for>
+
+    <div style="background:#fff; border:1px dashed #cbd5e1; border-radius:4px; padding:16px; display:flex; flex-direction:column; gap:12px;">
+      <div style="font-size:12px; font-weight:700; color:#334155;">+ New Promo Code</div>
+      <div style="display:flex; gap:12px;">
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Code</div><div class="field">WELCOME10</div></div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Discount Type</div><div class="field">Percentage</div></div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Value</div><div class="field">10%</div></div>
+      </div>
+      <div style="display:flex; gap:12px;">
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Scope</div><div class="field">Whole event</div></div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Max Uses</div><div class="field">100</div></div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Valid Until</div><div class="field">10 Sep 2026</div></div>
+      </div>
+      <button class="btn-primary" style="align-self:flex-start;">Create Promo Code</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      codes: [
+        { code: 'WELCOME10', discount: '10% off', scope: 'Whole event', used: 34, max: 100 },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

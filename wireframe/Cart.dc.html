@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #fff; }
+    .lbl { font-size: 11px; font-weight: 600; color: #475569; margin-bottom: 4px; }
+    .field { border: 1px solid #cbd5e1; border-radius: 3px; background: #fff; padding: 9px 10px; font-size: 12px; color: #94a3b8; }
+    .btn-primary { background: #334155; color: #fff; border: none; border-radius: 3px; padding: 13px 20px; font-size: 13px; font-weight: 700; cursor: pointer; width: 100%; box-sizing: border-box; }
+    .btn-outline { background:#fff; border:1px solid #cbd5e1; border-radius:3px; padding:9px 12px; font-size:12px; font-weight:600; color:#334155; }
+  </style>
+</helmet>
+<div style="width:375px; height:700px; box-sizing:border-box; display:flex; flex-direction:column; overflow:hidden;">
+  <div style="padding:14px 18px; border-bottom:1px solid #e2e8f0; display:flex; align-items:center; gap:12px; flex-shrink:0;">
+    <div style="font-size:16px; color:#334155;">←</div>
+    <div style="font-size:14px; font-weight:700; color:#0f172a;">Checkout</div>
+  </div>
+  <div style="flex:1; padding:16px 18px; display:flex; flex-direction:column; gap:16px; overflow:hidden;">
+    <div style="display:flex; gap:8px;">
+      <div style="flex:1; text-align:center; padding:9px; border-radius:3px; background:#334155; color:#fff; font-size:11px; font-weight:700;">Continue as Guest</div>
+      <div style="flex:1; text-align:center; padding:9px; border-radius:3px; border:1px solid #cbd5e1; color:#334155; font-size:11px; font-weight:700;">Log In / Sign Up</div>
+    </div>
+    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; padding:12px; display:flex; flex-direction:column; gap:6px;">
+      <div style="display:flex; justify-content:space-between; font-size:12px;"><span style="color:#475569;">2× Early Bird</span><span style="font-weight:600; color:#1e293b;">Rp 300,000</span></div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div style="font-size:12px; font-weight:700; color:#1e293b;">Attendee 1</div>
+      <div><div class="lbl">Full Name</div><div class="field">John Doe</div></div>
+      <div><div class="lbl">Email</div><div class="field">john@email.com</div></div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div style="font-size:12px; font-weight:700; color:#1e293b;">Attendee 2</div>
+      <div><div class="lbl">Full Name</div><div class="field">Jane Doe</div></div>
+      <div><div class="lbl">Email</div><div class="field">jane@email.com</div></div>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <div class="field" style="flex:1;">Promo code</div>
+      <button class="btn-outline">Apply</button>
+    </div>
+  </div>
+  <div style="padding:16px 18px; border-top:1px solid #e2e8f0; display:flex; flex-direction:column; gap:10px; flex-shrink:0;">
+    <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:800; color:#0f172a;"><span>Total</span><span>Rp 300,000</span></div>
+    <button class="btn-primary">Continue to Payment →</button>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

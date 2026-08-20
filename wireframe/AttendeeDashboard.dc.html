@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f8fafc; }
+    .btn-outline { background:#fff; border:1px solid #cbd5e1; border-radius:3px; padding:7px 12px; font-size:11px; font-weight:600; color:#334155; }
+    .badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 3px; }
+    .badge-upcoming { background: #dbeafe; color: #1d4ed8; }
+    .badge-past { background: #f1f5f9; color: #64748b; }
+    .card { background:#fff; border:1px solid #e2e8f0; border-radius:6px; }
+  </style>
+</helmet>
+<div style="width:900px; height:600px; box-sizing:border-box; display:flex; flex-direction:column; overflow:hidden;">
+  <div style="padding:16px 32px; border-bottom:1px solid #e2e8f0; background:#fff; display:flex; justify-content:space-between; align-items:center; flex-shrink:0;">
+    <div style="font-weight:800; font-size:15px; color:#0f172a;">Ticketing</div>
+    <div style="display:flex; gap:16px; align-items:center; font-size:12px; color:#475569;">
+      <span>Browse Events</span>
+      <span style="color:#334155; font-weight:700;">My Tickets</span>
+      <div style="width:26px; height:26px; border-radius:50%; background:#e2e8f0; display:flex; align-items:center; justify-content:center; font-size:11px; color:#64748b;">JD</div>
+    </div>
+  </div>
+  <div style="padding:20px 32px 8px; flex-shrink:0;">
+    <div style="font-size:19px; font-weight:700; color:#0f172a;">My Tickets</div>
+    <div style="font-size:11px; color:#94a3b8;">Signed in as john@email.com · via email link</div>
+  </div>
+  <div style="flex:1; padding:12px 32px 24px; display:flex; flex-direction:column; gap:12px; overflow:hidden;">
+    <sc-for list="{{orders}}" as="o" hint-placeholder-count="3">
+      <div class="card" style="display:flex; align-items:center; padding:14px 16px; gap:16px;">
+        <div style="width:52px; height:52px; border-radius:4px; background:#e2e8f0; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:9px;">QR</div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:3px;">
+          <div style="font-size:13px; font-weight:700; color:#1e293b;">{{o.title}}</div>
+          <div style="font-size:11px; color:#94a3b8;">{{o.date}} · {{o.ticketType}} · Order #{{o.orderId}}</div>
+        </div>
+        <span class="badge {{o.badgeClass}}">{{o.status}}</span>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-outline">View QR</button>
+          <button class="btn-outline">Invoice</button>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      orders: [
+        { title: 'DevConf Jakarta 2026', date: 'Sep 12', ticketType: 'Early Bird', orderId: '0042', status: 'Upcoming', badgeClass: 'badge-upcoming' },
+        { title: 'Startup Meetup #12', date: 'Aug 30', ticketType: 'Free Registration', orderId: '0039', status: 'Upcoming', badgeClass: 'badge-upcoming' },
+        { title: 'UX Bootcamp', date: 'Jul 5', ticketType: 'Regular', orderId: '0021', status: 'Attended', badgeClass: 'badge-past' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

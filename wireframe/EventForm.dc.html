@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f5f9; }
+    .lbl { font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+    .field { border: 1px solid #cbd5e1; border-radius: 3px; background: #fff; padding: 10px 12px; font-size: 13px; color: #94a3b8; }
+    .btn-primary { background: #334155; color: #fff; border: none; border-radius: 3px; padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .btn-secondary { background: #fff; color: #334155; border: 1px solid #cbd5e1; border-radius: 3px; padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .btn-dashed { border: 1px dashed #94a3b8; color: #64748b; background: transparent; border-radius: 4px; padding: 8px; font-size: 11px; font-weight: 600; cursor: pointer; text-align: center; }
+    .toggle { display: flex; border: 1px solid #cbd5e1; border-radius: 3px; overflow: hidden; width: fit-content; }
+    .toggle-opt { padding: 8px 16px; font-size: 12px; font-weight: 600; }
+    .toggle-active { background: #334155; color: #fff; }
+    .toggle-inactive { background: #fff; color: #64748b; }
+  </style>
+</helmet>
+<div style="width:900px; height:600px; box-sizing:border-box; display:flex; flex-direction:column; background:#f1f5f9;">
+  <div style="padding:20px 32px; border-bottom:1px solid #e2e8f0; background:#fff; display:flex; flex-direction:column; gap:4px;">
+    <div style="font-size:11px; color:#94a3b8;">Dashboard / Events / <span style="color:#334155; font-weight:600;">Create Event</span></div>
+    <div style="font-size:19px; font-weight:700; color:#0f172a;">Create Event</div>
+  </div>
+  <div style="flex:1; padding:24px 32px; display:flex; flex-direction:column; gap:18px; overflow:hidden;">
+    <div style="display:flex; flex-direction:column; gap:6px;">
+      <div class="lbl">Event Title</div>
+      <div class="field">e.g. DevConf Jakarta 2026</div>
+    </div>
+
+    <div style="display:flex; gap:20px;">
+      <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+        <div class="lbl">Event Type — use the tweak above to preview Single-day vs Multi-day</div>
+        <div class="toggle">
+          <div class="toggle-opt {{singleClass}}">Single-day</div>
+          <div class="toggle-opt {{multiClass}}">Multi-day</div>
+        </div>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+        <div class="lbl">Category (for browse/filter)</div>
+        <div class="field">Conference</div>
+      </div>
+    </div>
+
+    <sc-if value="{{isSingleDay}}" hint-placeholder-val="{{true}}">
+      <div style="display:flex; gap:20px;">
+        <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+          <div class="lbl">Date & Timezone</div>
+          <div style="display:flex; gap:8px;"><div class="field" style="flex:1;">12 Sep 2026, 09:00</div><div class="field" style="width:110px; text-align:center;">WIB</div></div>
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+          <div class="lbl">Venue</div>
+          <div class="field">e.g. Balai Kartini, Jakarta</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isMultiDay}}" hint-placeholder-val="{{false}}">
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div class="lbl">Event Days (each day can have its own venue)</div>
+        <sc-for list="{{days}}" as="d" hint-placeholder-count="3">
+          <div style="display:flex; gap:12px; align-items:flex-end;">
+            <div style="width:70px; font-size:11px; font-weight:700; color:#64748b; padding-bottom:10px;">{{d.label}}</div>
+            <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Date</div><div class="field">{{d.date}}</div></div>
+            <div style="width:80px; display:flex; flex-direction:column; gap:4px;"><div class="lbl">TZ</div><div class="field" style="text-align:center;">{{d.tz}}</div></div>
+            <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Venue</div><div class="field">{{d.venue}}</div></div>
+          </div>
+        </sc-for>
+        <div class="btn-dashed" style="width:fit-content; padding:8px 14px;">+ Add Day</div>
+      </div>
+    </sc-if>
+
+    <div style="display:flex; flex-direction:column; gap:6px;">
+      <div class="lbl">Banner Image</div>
+      <div style="border:1px dashed #94a3b8; border-radius:4px; background:#e2e8f0; height:80px; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:12px;">Upload banner image (16:9)</div>
+    </div>
+  </div>
+  <div style="padding:16px 32px; border-top:1px solid #e2e8f0; background:#fff; display:flex; justify-content:flex-end; gap:12px;">
+    <button class="btn-secondary">Save as Draft</button>
+    <button class="btn-primary">Continue to Ticket Types →</button>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"eventType":{"editor":"enum","options":["single_day","multi_day"],"default":"multi_day","section":"Type"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const type = this.props.eventType ?? 'multi_day';
+    const isSingleDay = type === 'single_day';
+    return {
+      isSingleDay,
+      isMultiDay: !isSingleDay,
+      singleClass: isSingleDay ? 'toggle-active' : 'toggle-inactive',
+      multiClass: isSingleDay ? 'toggle-inactive' : 'toggle-active',
+      days: [
+        { label: 'Day 1', date: '3 Oct 2026', tz: 'WIB', venue: 'Main Field, GBK Senayan' },
+        { label: 'Day 2', date: '4 Oct 2026', tz: 'WIB', venue: 'Main Field, GBK Senayan' },
+        { label: 'Day 3', date: '5 Oct 2026', tz: 'WIB', venue: 'Hall B, GBK Senayan' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+{
+  "artboards": [
+    { "file": "Login.dc.html", "x": 0, "y": -800, "w": 400, "h": 560 },
+    { "file": "Signup.dc.html", "x": 460, "y": -800, "w": 400, "h": 640 },
+    { "file": "ForgotPassword.dc.html", "x": 920, "y": -800, "w": 400, "h": 420 },
+    { "file": "ResetPassword.dc.html", "x": 1380, "y": -800, "w": 400, "h": 460 },
+
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 900, "h": 600 },
+    { "file": "EventForm.dc.html", "x": 960, "y": 0, "w": 900, "h": 600 },
+    { "file": "TicketTypeForm.dc.html", "x": 1920, "y": 0, "w": 900, "h": 600 },
+    { "file": "PromoCodeForm.dc.html", "x": 2880, "y": 0, "w": 900, "h": 600 },
+
+    { "file": "SalesSummary.dc.html", "x": 0, "y": 800, "w": 900, "h": 600 },
+    { "file": "AttendeeList.dc.html", "x": 960, "y": 800, "w": 900, "h": 600 },
+    { "file": "Report.dc.html", "x": 1920, "y": 800, "w": 900, "h": 600 },
+    { "file": "OrderDetail.dc.html", "x": 2880, "y": 800, "w": 900, "h": 600 },
+    { "file": "CancelEvent.dc.html", "x": 3840, "y": 800, "w": 900, "h": 600 },
+
+    { "file": "Homepage.dc.html", "x": 0, "y": 1600, "w": 900, "h": 600 },
+    { "file": "PublicEventPage.dc.html", "x": 960, "y": 1600, "w": 700, "h": 900 },
+    { "file": "Cart.dc.html", "x": 1720, "y": 1600, "w": 375, "h": 700 },
+    { "file": "PaymentMethod.dc.html", "x": 2155, "y": 1600, "w": 375, "h": 700 },
+    { "file": "PaymentPending.dc.html", "x": 2590, "y": 1600, "w": 375, "h": 700 },
+    { "file": "PaymentFailed.dc.html", "x": 3025, "y": 1600, "w": 375, "h": 700 },
+    { "file": "OrderConfirmation.dc.html", "x": 3460, "y": 1600, "w": 375, "h": 700 },
+
+    { "file": "CheckInPinEntry.dc.html", "x": 0, "y": 2600, "w": 375, "h": 650 },
+    { "file": "CheckInScanner.dc.html", "x": 460, "y": 2600, "w": 375, "h": 700 },
+
+    { "file": "AttendeeDashboard.dc.html", "x": 0, "y": 3450, "w": 900, "h": 600 },
+    { "file": "OrganizerSettings.dc.html", "x": 960, "y": 3450, "w": 900, "h": 800 },
+    { "file": "Invoice.dc.html", "x": 1920, "y": 3450, "w": 620, "h": 820 },
+    { "file": "AccountSettings.dc.html", "x": 2620, "y": 3450, "w": 700, "h": 760 },
+    { "file": "PlanUpgrade.dc.html", "x": 3400, "y": 3450, "w": 900, "h": 600 },
+
+    { "file": "AdminDashboard.dc.html", "x": 0, "y": 4400, "w": 900, "h": 600 },
+    { "file": "AdminOrganizerList.dc.html", "x": 960, "y": 4400, "w": 900, "h": 600 },
+    { "file": "OrganizerDetail.dc.html", "x": 1920, "y": 4400, "w": 900, "h": 800 },
+    { "file": "KYCQueue.dc.html", "x": 2880, "y": 4400, "w": 900, "h": 600 },
+    { "file": "PayoutQueue.dc.html", "x": 3840, "y": 4400, "w": 900, "h": 600 },
+    { "file": "AuditLog.dc.html", "x": 4800, "y": 4400, "w": 900, "h": 600 }
+  ],
+  "annotations": [
+    { "id": "row-auth", "x": 0, "y": -870, "w": 700, "text": "Auth — shared login/signup/forgot-password/reset, both role (email+password + Google)" },
+    { "id": "row-organizer", "x": 0, "y": -70, "w": 500, "text": "Organizer flow — create event, add ticket types, publish" },
+    { "id": "row-monitor", "x": 0, "y": 730, "w": 700, "text": "Organizer flow — monitor event: sales, attendees, report, refund" },
+    { "id": "row-attendee", "x": 0, "y": 1530, "w": 500, "text": "Attendee flow — homepage browse, event detail, checkout, pay, get QR ticket" },
+    { "id": "row-staff", "x": 0, "y": 2530, "w": 500, "text": "Staff flow — scan QR at gate, prevent duplicate check-in" },
+    { "id": "row-account", "x": 0, "y": 3380, "w": 900, "text": "Account & billing — attendee ticket history, account settings, organizer settings, invoice, plan upgrade" },
+    { "id": "row-admin", "x": 0, "y": 4330, "w": 900, "text": "Admin flow — overview, organizer list/detail, KYC queue, payout queue, audit log (no public signup)" }
+  ],
+  "launch": { "view": "canvas" }
+}

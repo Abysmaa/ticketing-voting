@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: rgba(15,23,42,0.5); }
+    .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; color: #94a3b8; }
+    .val { font-size: 12px; color: #1e293b; font-weight: 600; }
+    .btn-danger { background: #fff; color: #dc2626; border: 1px solid #fecaca; border-radius: 3px; padding: 9px 16px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-outline { background:#fff; border:1px solid #cbd5e1; border-radius:3px; padding:9px 16px; font-size:12px; font-weight:600; color:#334155; }
+    .status-paid { font-size: 10px; font-weight: 700; background: #dcfce7; color: #166534; padding: 3px 8px; border-radius: 3px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th { text-align: left; font-size: 10px; text-transform: uppercase; color: #94a3b8; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; }
+    td { padding: 8px 0; border-bottom: 1px solid #f1f5f9; color: #334155; }
+  </style>
+</helmet>
+<div style="width:900px; height:600px; box-sizing:border-box; display:flex; align-items:center; justify-content:center;">
+  <div style="width:560px; background:#fff; border-radius:8px; box-shadow:0 8px 30px rgba(0,0,0,0.15); display:flex; flex-direction:column; overflow:hidden;">
+    <div style="padding:18px 24px; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex; flex-direction:column; gap:2px;">
+        <div style="font-size:15px; font-weight:800; color:#0f172a;">Order #0042</div>
+        <div style="font-size:11px; color:#94a3b8;">John Doe · john@email.com</div>
+      </div>
+      <span class="status-paid">PAID</span>
+    </div>
+    <div style="padding:20px 24px; display:flex; flex-direction:column; gap:16px;">
+      <table>
+        <tr><th>Attendee</th><th>Ticket</th><th style="text-align:right;">Price</th></tr>
+        <tr><td>John Doe</td><td>Early Bird</td><td style="text-align:right;">Rp 150,000</td></tr>
+        <tr><td>Jane Doe</td><td>Early Bird</td><td style="text-align:right;">Rp 150,000</td></tr>
+      </table>
+      <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:800; color:#0f172a;"><span>Total Paid</span><span>Rp 300,000</span></div>
+      <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:6px; padding:12px 14px; display:flex; flex-direction:column; gap:6px;">
+        <div style="font-size:12px; font-weight:700; color:#991b1b;">Refund / Cancel Order</div>
+        <div style="font-size:11px; color:#7f1d1d;">This cancels both attendee tickets and refunds Rp 300,000 to the original payment method. Cannot be undone.</div>
+      </div>
+    </div>
+    <div style="padding:16px 24px; border-top:1px solid #e2e8f0; display:flex; justify-content:flex-end; gap:12px;">
+      <button class="btn-outline">Close</button>
+      <button class="btn-danger">Refund / Cancel Order</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

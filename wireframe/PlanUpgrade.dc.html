@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: rgba(15,23,42,0.5); }
+    .lbl { font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+    .field { border: 1px solid #cbd5e1; border-radius: 3px; background: #fff; padding: 9px 12px; font-size: 12px; color: #94a3b8; }
+    .btn-primary { background: #334155; color: #fff; border: none; border-radius: 3px; padding: 11px 18px; font-size: 13px; font-weight: 700; cursor: pointer; width: 100%; box-sizing: border-box; }
+    .btn-outline { background:#fff; border:1px solid #cbd5e1; border-radius:3px; padding:9px 16px; font-size:12px; font-weight:600; color:#334155; }
+    .plan-card { flex:1; border:1px solid #e2e8f0; border-radius:8px; padding:18px; display:flex; flex-direction:column; gap:12px; }
+    .plan-card-active { border:2px solid #334155; background:#f8fafc; }
+    .check { color:#166534; font-size:12px; }
+  </style>
+</helmet>
+<div style="width:900px; height:600px; box-sizing:border-box; display:flex; align-items:center; justify-content:center;">
+  <div style="width:640px; background:#fff; border-radius:8px; box-shadow:0 8px 30px rgba(0,0,0,0.15); display:flex; flex-direction:column; overflow:hidden;">
+    <div style="padding:20px 28px; border-bottom:1px solid #e2e8f0;">
+      <div style="font-size:16px; font-weight:800; color:#0f172a;">Upgrade Your Plan</div>
+      <div style="font-size:11px; color:#94a3b8;">You've reached the Free plan's event limit</div>
+    </div>
+    <div style="padding:24px 28px; display:flex; gap:16px;">
+      <div class="plan-card">
+        <div style="font-size:13px; font-weight:700; color:#1e293b;">Free</div>
+        <div style="font-size:20px; font-weight:800; color:#0f172a;">Rp 0</div>
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:11px; color:#475569;">
+          <div><span class="check">✓</span> Up to 3 active events</div>
+          <div><span class="check">✓</span> Up to 200 attendee / event</div>
+          <div><span class="check">✓</span> 7% commission per ticket</div>
+        </div>
+        <button class="btn-outline">Current Plan</button>
+      </div>
+      <div class="plan-card plan-card-active">
+        <div style="font-size:13px; font-weight:700; color:#1e293b;">Paid</div>
+        <div style="font-size:20px; font-weight:800; color:#0f172a;">Rp 149,000<span style="font-size:11px; font-weight:400; color:#94a3b8;">/mo</span></div>
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:11px; color:#475569;">
+          <div><span class="check">✓</span> Unlimited active events</div>
+          <div><span class="check">✓</span> Unlimited attendee / event</div>
+          <div><span class="check">✓</span> 5% commission per ticket</div>
+        </div>
+        <button class="btn-primary" style="width:auto;">Upgrade Now</button>
+      </div>
+    </div>
+    <div style="padding:0 28px 24px; display:flex; flex-direction:column; gap:10px;">
+      <div class="lbl">Billing Card</div>
+      <div class="field">4532 •••• •••• 1122</div>
+    </div>
+    <div style="padding:16px 28px; border-top:1px solid #e2e8f0; display:flex; justify-content:flex-end; gap:12px;">
+      <button class="btn-outline">Cancel</button>
+      <button class="btn-primary" style="width:auto;">Confirm Upgrade</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

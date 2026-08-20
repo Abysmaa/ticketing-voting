@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f5f9; }
+    .field { border: 1px solid #cbd5e1; border-radius: 3px; background: #fff; padding: 8px 10px; font-size: 12px; color: #94a3b8; }
+    .btn-outline { background:#fff; border:1px solid #cbd5e1; border-radius:3px; padding:6px 12px; font-size:11px; font-weight:600; color:#334155; }
+    .btn-danger { background:#fff; border:1px solid #fecaca; border-radius:3px; padding:6px 12px; font-size:11px; font-weight:600; color:#dc2626; }
+    .badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 3px; }
+    .badge-verified { background: #dcfce7; color: #166534; }
+    .badge-pending { background: #fef9c3; color: #a16207; }
+    .badge-suspended { background: #fee2e2; color: #991b1b; }
+    .plan-chip { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 3px; background:#eef2ff; color:#4338ca; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; }
+  </style>
+</helmet>
+<div style="display:flex; width:900px; height:600px; box-sizing:border-box;">
+  <div style="width:180px; flex-shrink:0; background:#1e1b4b; padding:20px 0; display:flex; flex-direction:column; gap:4px;">
+    <div style="color:#fff; font-weight:700; font-size:15px; padding:0 20px 4px;">Ticketing</div>
+    <div style="color:#a5b4fc; font-size:10px; font-weight:700; letter-spacing:.05em; padding:0 20px 16px;">ADMIN</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Overview</div>
+    <div style="color:#fff; background:#312e81; padding:9px 20px; font-size:12px; font-weight:600; border-left:3px solid #fff;">Organizers</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">KYC Queue</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Payouts</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Audit Log</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Disputes</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Settings</div>
+  </div>
+  <div style="flex:1; display:flex; flex-direction:column; padding:24px 32px; gap:14px; box-sizing:border-box; overflow:hidden;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="font-size:19px; font-weight:700; color:#0f172a;">Organizers</div>
+      <div style="display:flex; gap:8px;">
+        <div class="field" style="width:200px;">Search organizer...</div>
+        <div class="field">Status ▾</div>
+      </div>
+    </div>
+    <div class="card" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+      <div style="display:flex; padding:8px 16px; font-size:10px; text-transform:uppercase; color:#94a3b8; border-bottom:1px solid #f1f5f9;">
+        <div style="width:22%;">Organizer</div><div style="width:13%;">Plan</div><div style="width:15%;">Verification</div><div style="width:10%;">Events</div><div style="width:18%;">Revenue</div><div style="width:22%;">Actions</div>
+      </div>
+      <sc-for list="{{orgs}}" as="o" hint-placeholder-count="5">
+        <div style="display:flex; align-items:center; padding:11px 16px; font-size:12px; color:#334155; border-bottom:1px solid #f8fafc;">
+          <div style="width:22%; font-weight:600;">{{o.name}}</div>
+          <div style="width:13%;"><span class="plan-chip">{{o.plan}}</span></div>
+          <div style="width:15%;"><span class="badge {{o.verifyClass}}">{{o.verifyStatus}}</span></div>
+          <div style="width:10%;">{{o.events}}</div>
+          <div style="width:18%; font-weight:600;">{{o.revenue}}</div>
+          <div style="width:22%; display:flex; gap:6px;">
+            <button class="btn-outline">View</button>
+            <button class="btn-danger">Suspend</button>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      orgs: [
+        { name: 'Aquila Events', plan: 'Paid', verifyStatus: 'Verified', verifyClass: 'badge-verified', events: 12, revenue: 'Rp 213,000,000' },
+        { name: 'Java Live Concerts', plan: 'Paid', verifyStatus: 'Verified', verifyClass: 'badge-verified', events: 8, revenue: 'Rp 187,500,000' },
+        { name: 'Kopi Konf Studio', plan: 'Free', verifyStatus: 'Pending', verifyClass: 'badge-pending', events: 3, revenue: 'Rp 94,200,000' },
+        { name: 'Nusantara Run Club', plan: 'Free', verifyStatus: 'Pending', verifyClass: 'badge-pending', events: 1, revenue: 'Rp 4,500,000' },
+        { name: 'Bad Actor Events', plan: 'Free', verifyStatus: 'Suspended', verifyClass: 'badge-suspended', events: 0, revenue: 'Rp 0' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

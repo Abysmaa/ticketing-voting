@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f5f9; }
+    a { color: #334155; } a:hover { color: #0f172a; }
+    .lbl { font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: #94a3b8; }
+    .btn-primary { background: #334155; color: #fff; border: none; border-radius: 3px; padding: 10px 16px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .btn-secondary { background: #fff; color: #334155; border: 1px solid #cbd5e1; border-radius: 3px; padding: 10px 16px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .badge { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 3px; }
+    .badge-published { background: #dcfce7; color: #166534; }
+    .badge-draft { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; }
+  </style>
+</helmet>
+<div style="display:flex; width:900px; height:600px; box-sizing:border-box;">
+  <div style="width:180px; flex-shrink:0; background:#0f172a; padding:20px 0; display:flex; flex-direction:column; gap:4px;">
+    <div style="color:#fff; font-weight:700; font-size:15px; padding:0 20px 20px;">Ticketing</div>
+    <div style="color:#fff; background:#1e293b; padding:10px 20px; font-size:13px; font-weight:600; border-left:3px solid #fff;">Dashboard</div>
+    <div style="color:#94a3b8; padding:10px 20px; font-size:13px;">Attendees</div>
+    <div style="color:#94a3b8; padding:10px 20px; font-size:13px;">Reports</div>
+    <div style="color:#94a3b8; padding:10px 20px; font-size:13px;">Settings</div>
+  </div>
+  <div style="flex:1; display:flex; flex-direction:column; padding:24px; gap:20px; box-sizing:border-box; overflow:hidden;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="font-size:20px; font-weight:700; color:#0f172a;">My Events</div>
+      <button class="btn-primary">+ Create Event</button>
+    </div>
+    <sc-if value="{{hasEvents}}" hint-placeholder-val="{{true}}">
+      <div class="card" style="display:flex; flex-direction:column;">
+        <div style="display:flex; padding:10px 16px; border-bottom:1px solid #e2e8f0;">
+          <div class="lbl" style="width:40%;">Event</div>
+          <div class="lbl" style="width:15%;">Date</div>
+          <div class="lbl" style="width:15%;">Status</div>
+          <div class="lbl" style="width:20%;">Sold / Quota</div>
+          <div class="lbl" style="width:10%;"></div>
+        </div>
+        <sc-for list="{{events}}" as="ev" hint-placeholder-count="4">
+          <div style="display:flex; align-items:center; padding:14px 16px; border-bottom:1px solid #f1f5f9;">
+            <div style="width:40%; font-size:13px; font-weight:600; color:#1e293b;">{{ev.title}}</div>
+            <div style="width:15%; font-size:12px; color:#64748b;">{{ev.date}}</div>
+            <div style="width:15%;"><span class="badge {{ev.badgeClass}}">{{ev.status}}</span></div>
+            <div style="width:20%; font-size:12px; color:#64748b;">{{ev.sold}} / {{ev.quota}}</div>
+            <div style="width:10%; text-align:right;"><a href="#" style="font-size:12px; font-weight:600;">View</a></div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+      <div class="card" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:40px;">
+        <div style="width:56px; height:56px; border-radius:50%; background:#f1f5f9; display:flex; align-items:center; justify-content:center;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        </div>
+        <div style="text-align:center; display:flex; flex-direction:column; gap:4px;">
+          <div style="font-size:14px; font-weight:700; color:#1e293b;">No events yet</div>
+          <div style="font-size:12px; color:#94a3b8;">Create your first event to start selling ticket</div>
+        </div>
+        <button class="btn-primary">+ Create Event</button>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"hasEvents":{"editor":"boolean","default":true,"section":"State"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const hasEvents = this.props.hasEvents ?? true;
+    return {
+      hasEvents,
+      isEmpty: !hasEvents,
+      events: [
+        { title: 'DevConf Jakarta 2026', date: 'Sep 12', status: 'Published', badgeClass: 'badge-published', sold: 240, quota: 300 },
+        { title: 'React Workshop Batch 3', date: 'Sep 20', status: 'Published', badgeClass: 'badge-published', sold: 18, quota: 40 },
+        { title: 'Music Fest Weekend', date: 'Oct 3-5', status: 'Draft', badgeClass: 'badge-draft', sold: 0, quota: 1500 },
+        { title: 'Startup Meetup #12', date: 'Aug 30', status: 'Published', badgeClass: 'badge-published', sold: 85, quota: 100 },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f5f9; }
+    .tab { font-size: 12px; font-weight: 600; padding: 10px 4px; color: #64748b; border-bottom: 2px solid transparent; }
+    .tab-active { color: #0f172a; border-bottom: 2px solid #334155; }
+    .field { border: 1px solid #cbd5e1; border-radius: 3px; background: #fff; padding: 8px 10px; font-size: 12px; color: #94a3b8; }
+    .btn-outline { background:#fff; border:1px solid #cbd5e1; border-radius:3px; padding:8px 14px; font-size:12px; font-weight:600; color:#334155; }
+    .badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 3px; }
+    .badge-in { background: #dcfce7; color: #166534; }
+    .badge-out { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; }
+  </style>
+</helmet>
+<div style="width:900px; height:600px; box-sizing:border-box; display:flex; flex-direction:column; background:#f1f5f9; overflow:hidden;">
+  <div style="padding:16px 32px 0; border-bottom:1px solid #e2e8f0; background:#fff; display:flex; flex-direction:column; gap:10px; flex-shrink:0;">
+    <div style="font-size:11px; color:#94a3b8;">Dashboard / Events / <span style="color:#334155; font-weight:600;">DevConf Jakarta 2026</span></div>
+    <div style="display:flex; gap:20px;">
+      <div class="tab">Sales Summary</div>
+      <div class="tab tab-active">Attendees</div>
+      <div class="tab">Report</div>
+      <div class="tab">Ticket Types</div>
+    </div>
+  </div>
+  <div style="flex:1; padding:20px 32px; display:flex; flex-direction:column; gap:14px; overflow:hidden;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex; gap:8px;">
+        <div class="field" style="width:220px;">Search name or email...</div>
+        <div class="field">Ticket Type ▾</div>
+        <div class="field">Status ▾</div>
+      </div>
+      <button class="btn-outline">Export CSV</button>
+    </div>
+    <div class="card" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+      <div style="display:flex; padding:8px 16px; font-size:10px; text-transform:uppercase; color:#94a3b8; border-bottom:1px solid #f1f5f9;">
+        <div style="width:25%;">Name</div><div style="width:25%;">Email</div><div style="width:20%;">Ticket Type</div><div style="width:15%;">Order</div><div style="width:15%;">Status</div>
+      </div>
+      <sc-for list="{{attendees}}" as="a" hint-placeholder-count="5">
+        <div style="display:flex; align-items:center; padding:10px 16px; font-size:12px; color:#334155; border-bottom:1px solid #f8fafc;">
+          <div style="width:25%; font-weight:600;">{{a.name}}</div><div style="width:25%; color:#64748b;">{{a.email}}</div><div style="width:20%;">{{a.type}}</div><div style="width:15%; color:#64748b;">#{{a.order}}</div>
+          <div style="width:15%;"><span class="badge {{a.badgeClass}}">{{a.status}}</span></div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      attendees: [
+        { name: 'John Doe', email: 'john@email.com', type: 'Early Bird', order: '0042', status: 'Checked in', badgeClass: 'badge-in' },
+        { name: 'Jane Doe', email: 'jane@email.com', type: 'Early Bird', order: '0042', status: 'Checked in', badgeClass: 'badge-in' },
+        { name: 'Amir Rahman', email: 'amir@email.com', type: 'Regular', order: '0039', status: 'Not checked in', badgeClass: 'badge-out' },
+        { name: 'Sinta Wijaya', email: 'sinta@email.com', type: 'Regular', order: '0038', status: 'Checked in', badgeClass: 'badge-in' },
+        { name: 'Budi Santoso', email: 'budi@email.com', type: 'Regular', order: '0035', status: 'Not checked in', badgeClass: 'badge-out' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

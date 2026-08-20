@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f8fafc; }
+    .lbl { font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+    .field { border: 1px solid #cbd5e1; border-radius: 3px; background: #fff; padding: 9px 12px; font-size: 12px; color: #94a3b8; }
+    .btn-primary { background: #334155; color: #fff; border: none; border-radius: 3px; padding: 9px 16px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-danger { background:#fff; border:1px solid #fecaca; border-radius:3px; padding:9px 16px; font-size:12px; font-weight:600; color:#dc2626; }
+    .section-title { font-size: 13px; font-weight: 700; color: #0f172a; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; }
+    .chip { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 3px; background:#dbeafe; color:#1d4ed8; }
+  </style>
+</helmet>
+<div style="width:700px; height:700px; box-sizing:border-box; display:flex; flex-direction:column; overflow:hidden;">
+  <div style="padding:16px 32px; border-bottom:1px solid #e2e8f0; background:#fff; display:flex; justify-content:space-between; align-items:center; flex-shrink:0;">
+    <div style="font-weight:800; font-size:15px; color:#0f172a;">Ticketing</div>
+    <div style="display:flex; gap:16px; align-items:center; font-size:12px; color:#475569;">
+      <span>My Tickets</span>
+      <span style="color:#334155; font-weight:700;">Account Settings</span>
+    </div>
+  </div>
+  <div style="flex:1; padding:24px 32px; display:flex; flex-direction:column; gap:22px; overflow:hidden;">
+    <div style="font-size:19px; font-weight:700; color:#0f172a;">Account Settings</div>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="section-title">Profile</div>
+      <div class="card" style="padding:14px; display:flex; flex-direction:column; gap:10px;">
+        <div><div class="lbl">Full Name</div><div class="field">John Doe</div></div>
+        <div><div class="lbl">Email</div><div class="field">john@email.com</div><div style="font-size:10px; color:#94a3b8; margin-top:4px;">Changing email requires re-verification</div></div>
+        <button class="btn-primary" style="align-self:flex-start;">Save Profile</button>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="section-title">Password & Login</div>
+      <div class="card" style="padding:14px; display:flex; flex-direction:column; gap:10px;">
+        <div style="display:flex; align-items:center; gap:8px;"><span class="chip">Google Linked</span><span style="font-size:11px; color:#94a3b8;">john@gmail.com</span></div>
+        <div><div class="lbl">Current Password</div><div class="field">••••••••</div></div>
+        <div style="display:flex; gap:10px;">
+          <div style="flex:1;"><div class="lbl">New Password</div><div class="field">••••••••</div></div>
+          <div style="flex:1;"><div class="lbl">Confirm New Password</div><div class="field">••••••••</div></div>
+        </div>
+        <button class="btn-primary" style="align-self:flex-start;">Update Password</button>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="section-title">Danger Zone</div>
+      <div class="card" style="padding:14px; display:flex; justify-content:space-between; align-items:center; border-color:#fecaca;">
+        <div style="display:flex; flex-direction:column; gap:2px;">
+          <div style="font-size:12px; font-weight:700; color:#991b1b;">Delete Account</div>
+          <div style="font-size:11px; color:#94a3b8;">Permanently delete your account and personal data</div>
+        </div>
+        <button class="btn-danger">Delete Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

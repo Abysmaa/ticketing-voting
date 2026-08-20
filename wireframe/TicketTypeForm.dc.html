@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f5f9; }
+    .lbl { font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+    .field { border: 1px solid #cbd5e1; border-radius: 3px; background: #fff; padding: 8px 10px; font-size: 12px; color: #94a3b8; }
+    .btn-primary { background: #334155; color: #fff; border: none; border-radius: 3px; padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .btn-secondary { background: #fff; color: #334155; border: 1px solid #cbd5e1; border-radius: 3px; padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .btn-dashed { border: 1px dashed #94a3b8; color: #64748b; background: transparent; border-radius: 4px; padding: 10px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: center; }
+    .chip { font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 3px; background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+  </style>
+</helmet>
+<div style="width:900px; height:600px; box-sizing:border-box; display:flex; flex-direction:column; background:#f1f5f9;">
+  <div style="padding:20px 32px; border-bottom:1px solid #e2e8f0; background:#fff; display:flex; flex-direction:column; gap:4px;">
+    <div style="font-size:11px; color:#94a3b8;">Dashboard / Events / DevConf Jakarta 2026 / <span style="color:#334155; font-weight:600;">Ticket Types</span></div>
+    <div style="font-size:19px; font-weight:700; color:#0f172a;">Ticket Types</div>
+  </div>
+  <div style="flex:1; padding:24px 32px; display:flex; flex-direction:column; gap:12px; overflow:hidden;">
+    <sc-for list="{{tickets}}" as="t" hint-placeholder-count="2">
+      <div style="background:#fff; border:1px solid #e2e8f0; border-radius:4px; padding:14px 16px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <div style="font-size:13px; font-weight:700; color:#1e293b;">{{t.name}}</div>
+          <div style="display:flex; gap:6px;">
+            <span class="chip">{{t.days}}</span>
+            <span class="chip">{{t.window}}</span>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:24px;">
+          <div style="text-align:right;">
+            <div style="font-size:13px; font-weight:700; color:#1e293b;">{{t.price}}</div>
+            <div style="font-size:11px; color:#94a3b8;">Quota: {{t.quota}}</div>
+          </div>
+          <a href="#" style="font-size:12px; font-weight:600; color:#64748b;">Edit</a>
+        </div>
+      </div>
+    </sc-for>
+
+    <div style="background:#fff; border:1px dashed #cbd5e1; border-radius:4px; padding:16px; display:flex; flex-direction:column; gap:12px;">
+      <div style="font-size:12px; font-weight:700; color:#334155;">+ New Ticket Type</div>
+      <div style="display:flex; gap:12px;">
+        <div style="flex:2; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Name</div><div class="field">e.g. Early Bird</div></div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Price (Rp)</div><div class="field">150,000</div></div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Quota</div><div class="field">100</div></div>
+      </div>
+      <div style="display:flex; gap:12px;">
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Sale Start</div><div class="field">1 Aug 2026</div></div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Sale End</div><div class="field">10 Sep 2026</div></div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Valid Days</div><div class="field">Full Pass</div></div>
+      </div>
+      <button class="btn-primary" style="align-self:flex-start;">Add Ticket Type</button>
+    </div>
+  </div>
+  <div style="padding:16px 32px; border-top:1px solid #e2e8f0; background:#fff; display:flex; justify-content:space-between; align-items:center;">
+    <a href="#" style="font-size:12px; color:#64748b;">← Back to Event Details</a>
+    <div style="display:flex; gap:12px;">
+      <button class="btn-secondary">Preview Event</button>
+      <button class="btn-primary">Publish Event</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      tickets: [
+        { name: 'Early Bird', days: 'Full Pass', window: 'Aug 1 - Aug 20', price: 'Rp 150,000', quota: 100 },
+        { name: 'Regular', days: 'Full Pass', window: 'Aug 21 - Sep 10', price: 'Rp 200,000', quota: 200 },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

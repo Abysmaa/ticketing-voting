@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #0f172a; }
+  </style>
+</helmet>
+<div style="width:375px; height:700px; box-sizing:border-box; display:flex; flex-direction:column; overflow:hidden;">
+  <div style="padding:16px 18px; flex-shrink:0; display:flex; justify-content:space-between; align-items:flex-start;">
+    <div>
+      <div style="font-size:14px; font-weight:700; color:#fff;">Check-in Scanner</div>
+      <div style="font-size:11px; color:#94a3b8;">Music Fest Weekend</div>
+    </div>
+    <div style="background:#1e293b; border-radius:4px; padding:6px 10px; font-size:11px; font-weight:700; color:#fff;">Day 2 ▾</div>
+  </div>
+  <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:0 32px;">
+    <div style="position:relative; width:220px; height:220px;">
+      <div style="position:absolute; top:0; left:0; width:28px; height:28px; border-top:3px solid #fff; border-left:3px solid #fff;"></div>
+      <div style="position:absolute; top:0; right:0; width:28px; height:28px; border-top:3px solid #fff; border-right:3px solid #fff;"></div>
+      <div style="position:absolute; bottom:0; left:0; width:28px; height:28px; border-bottom:3px solid #fff; border-left:3px solid #fff;"></div>
+      <div style="position:absolute; bottom:0; right:0; width:28px; height:28px; border-bottom:3px solid #fff; border-right:3px solid #fff;"></div>
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:11px; text-align:center;">Point camera at<br>QR code</div>
+    </div>
+  </div>
+  <div style="flex-shrink:0; padding:16px 18px; display:flex; flex-direction:column; gap:12px;">
+    <div style="background:#dcfce7; border-radius:6px; padding:12px 14px; display:flex; flex-direction:column; gap:2px;">
+      <div style="font-size:12px; font-weight:700; color:#166534;">✓ Checked in: John Doe</div>
+      <div style="font-size:10px; color:#166534;">Early Bird · scanned 09:14</div>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; background:#1e293b; border-radius:6px; padding:12px 14px;">
+      <div style="font-size:11px; color:#94a3b8;">Checked in</div>
+      <div style="font-size:14px; font-weight:800; color:#fff;">42 / 150</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

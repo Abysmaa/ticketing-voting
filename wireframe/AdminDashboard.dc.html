@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f5f9; }
+    .stat-card { background:#fff; border:1px solid #e2e8f0; border-radius:6px; padding:14px 16px; display:flex; flex-direction:column; gap:4px; flex:1; }
+    .stat-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; color: #94a3b8; }
+    .stat-val { font-size: 19px; font-weight: 800; color: #0f172a; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; }
+  </style>
+</helmet>
+<div style="display:flex; width:900px; height:600px; box-sizing:border-box;">
+  <div style="width:180px; flex-shrink:0; background:#1e1b4b; padding:20px 0; display:flex; flex-direction:column; gap:4px;">
+    <div style="color:#fff; font-weight:700; font-size:15px; padding:0 20px 4px;">Ticketing</div>
+    <div style="color:#a5b4fc; font-size:10px; font-weight:700; letter-spacing:.05em; padding:0 20px 16px;">ADMIN</div>
+    <div style="color:#fff; background:#312e81; padding:9px 20px; font-size:12px; font-weight:600; border-left:3px solid #fff;">Overview</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Organizers</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">KYC Queue</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Payouts</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Audit Log</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Disputes</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Settings</div>
+  </div>
+  <div style="flex:1; display:flex; flex-direction:column; padding:24px 32px; gap:18px; box-sizing:border-box; overflow:hidden;">
+    <div style="font-size:19px; font-weight:700; color:#0f172a;">Platform Overview</div>
+    <div style="display:flex; gap:16px;">
+      <div class="stat-card"><div class="stat-lbl">Total GMV</div><div class="stat-val">Rp 1.28B</div></div>
+      <div class="stat-card"><div class="stat-lbl">Commission Earned</div><div class="stat-val">Rp 64,200,000</div></div>
+      <div class="stat-card"><div class="stat-lbl">Active Organizers</div><div class="stat-val">142</div></div>
+      <div class="stat-card"><div class="stat-lbl">Live Events</div><div class="stat-val">37</div></div>
+    </div>
+    <div class="card" style="padding:16px; display:flex; flex-direction:column; gap:12px; flex:1;">
+      <div style="font-size:12px; font-weight:700; color:#1e293b;">Platform Sales — Last 30 Days</div>
+      <div style="flex:1; display:flex; align-items:flex-end; gap:8px;">
+        <sc-for list="{{bars}}" as="b" hint-placeholder-count="12">
+          <div style="flex:1; background:#312e81; border-radius:2px 2px 0 0; height:{{b.h}};"></div>
+        </sc-for>
+      </div>
+    </div>
+    <div class="card" style="padding:14px 16px; display:flex; flex-direction:column; gap:8px;">
+      <div style="font-size:12px; font-weight:700; color:#1e293b;">Top Organizers by Revenue</div>
+      <sc-for list="{{top}}" as="o" hint-placeholder-count="3">
+        <div style="display:flex; justify-content:space-between; font-size:12px; color:#334155;">
+          <span>{{o.name}}</span><span style="font-weight:600;">{{o.revenue}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      bars: [
+        { h: '40%' }, { h: '55%' }, { h: '35%' }, { h: '60%' }, { h: '48%' }, { h: '70%' },
+        { h: '90%' }, { h: '65%' }, { h: '52%' }, { h: '58%' }, { h: '75%' }, { h: '62%' },
+      ],
+      top: [
+        { name: 'Aquila Events', revenue: 'Rp 213,000,000' },
+        { name: 'Java Live Concerts', revenue: 'Rp 187,500,000' },
+        { name: 'Kopi Konf Studio', revenue: 'Rp 94,200,000' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

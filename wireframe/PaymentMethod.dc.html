@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #fff; }
+    .btn-primary { background: #334155; color: #fff; border: none; border-radius: 3px; padding: 13px 20px; font-size: 13px; font-weight: 700; cursor: pointer; width: 100%; box-sizing: border-box; }
+    .grp-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #94a3b8; margin: 4px 0; }
+    .opt { display:flex; align-items:center; justify-content:space-between; border:1px solid #e2e8f0; border-radius:4px; padding:12px 14px; font-size:12px; color:#1e293b; }
+    .radio { width:16px; height:16px; border-radius:50%; border:1.5px solid #cbd5e1; flex-shrink:0; }
+  </style>
+</helmet>
+<div style="width:375px; height:700px; box-sizing:border-box; display:flex; flex-direction:column; overflow:hidden;">
+  <div style="padding:14px 18px; border-bottom:1px solid #e2e8f0; display:flex; align-items:center; gap:12px; flex-shrink:0;">
+    <div style="font-size:16px; color:#334155;">←</div>
+    <div style="font-size:14px; font-weight:700; color:#0f172a;">Payment Method</div>
+  </div>
+  <div style="flex:1; padding:16px 18px; display:flex; flex-direction:column; gap:18px; overflow:hidden;">
+    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; padding:10px 12px; display:flex; justify-content:space-between; font-size:12px; font-weight:700; color:#1e293b;">
+      <span>Total to pay</span><span>Rp 300,000</span>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <div class="grp-title">Virtual Account</div>
+      <sc-for list="{{va}}" as="m" hint-placeholder-count="2">
+        <div class="opt"><span>{{m}}</span><div class="radio"></div></div>
+      </sc-for>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <div class="grp-title">E-Wallet</div>
+      <sc-for list="{{ewallet}}" as="m" hint-placeholder-count="2">
+        <div class="opt"><span>{{m}}</span><div class="radio"></div></div>
+      </sc-for>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <div class="grp-title">Other</div>
+      <div class="opt"><span>QRIS</span><div class="radio"></div></div>
+      <div class="opt"><span>Credit / Debit Card</span><div class="radio"></div></div>
+    </div>
+  </div>
+  <div style="padding:16px 18px; border-top:1px solid #e2e8f0; flex-shrink:0;">
+    <button class="btn-primary">Pay Now</button>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      va: ['BCA Virtual Account', 'Mandiri Virtual Account'],
+      ewallet: ['GoPay', 'OVO'],
+    };
+  }
+}
+</script>
+</body>
+</html>

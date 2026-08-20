@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f5f9; }
+    .lbl { font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+    .field { border: 1px solid #cbd5e1; border-radius: 3px; background: #fff; padding: 9px 12px; font-size: 12px; color: #94a3b8; }
+    .btn-primary { background: #334155; color: #fff; border: none; border-radius: 3px; padding: 9px 16px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .section-title { font-size: 13px; font-weight: 700; color: #0f172a; }
+    .plan-badge { font-size: 10px; font-weight: 700; background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; padding: 3px 8px; border-radius: 3px; }
+    .plan-badge-paid { background: #dcfce7; color: #166534; border-color: transparent; }
+    .kyc-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 3px; background: #fef9c3; color: #a16207; }
+  </style>
+</helmet>
+<div style="display:flex; width:900px; height:800px; box-sizing:border-box;">
+  <div style="width:180px; flex-shrink:0; background:#0f172a; padding:20px 0; display:flex; flex-direction:column; gap:4px;">
+    <div style="color:#fff; font-weight:700; font-size:15px; padding:0 20px 20px;">Ticketing</div>
+    <div style="color:#94a3b8; padding:10px 20px; font-size:13px;">Dashboard</div>
+    <div style="color:#94a3b8; padding:10px 20px; font-size:13px;">Attendees</div>
+    <div style="color:#94a3b8; padding:10px 20px; font-size:13px;">Reports</div>
+    <div style="color:#fff; background:#1e293b; padding:10px 20px; font-size:13px; font-weight:600; border-left:3px solid #fff;">Settings</div>
+  </div>
+  <div style="flex:1; display:flex; flex-direction:column; padding:24px 32px; gap:22px; box-sizing:border-box; overflow:hidden;">
+    <div style="font-size:19px; font-weight:700; color:#0f172a;">Settings</div>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="section-title">Profile</div>
+      <div style="display:flex; gap:16px;">
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Organizer / Business Name</div><div class="field">Aquila Events</div></div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Contact Email</div><div class="field">admin@aquilaevents.co.id</div></div>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="section-title">Payout Bank Account</div>
+      <div style="display:flex; gap:16px;">
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Bank</div><div class="field">BCA</div></div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Account Number</div><div class="field">••• 4821</div></div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;"><div class="lbl">Account Holder</div><div class="field">PT Aquila Events</div></div>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="section-title">Verification (KYC)</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; border:1px solid #e2e8f0; border-radius:4px; padding:12px 14px; background:#fff;">
+        <div style="display:flex; flex-direction:column; gap:3px;">
+          <div style="display:flex; align-items:center; gap:8px;"><span style="font-size:13px; font-weight:700; color:#1e293b;">Tax ID (NPWP)</span><span class="kyc-badge">PENDING REVIEW</span></div>
+          <div style="font-size:11px; color:#94a3b8;">Payout stays disabled until verified. 09.123.456.7-891.000 · business_doc.pdf</div>
+        </div>
+        <button class="btn-primary" style="background:#fff; color:#334155; border:1px solid #cbd5e1;">Update Document</button>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="section-title">Check-in Access (per event)</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; border:1px solid #e2e8f0; border-radius:4px; padding:12px 14px; background:#fff;">
+        <div style="display:flex; flex-direction:column; gap:2px;">
+          <div style="font-size:11px; color:#94a3b8;">DevConf Jakarta 2026 — PIN</div>
+          <div style="font-size:16px; font-weight:800; color:#0f172a; letter-spacing:.1em;">4821</div>
+        </div>
+        <button class="btn-primary" style="background:#fff; color:#334155; border:1px solid #cbd5e1;">Regenerate</button>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="section-title">Plan & Billing</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; border:1px solid #e2e8f0; border-radius:4px; padding:12px 14px; background:#fff;">
+        <div style="display:flex; flex-direction:column; gap:3px;">
+          <div style="display:flex; align-items:center; gap:8px;"><span style="font-size:13px; font-weight:700; color:#1e293b;">Paid Plan</span><span class="plan-badge plan-badge-paid">ACTIVE</span></div>
+          <div style="font-size:11px; color:#94a3b8;">Commission rate: 5% per ticket · Unlimited events</div>
+        </div>
+        <button class="btn-primary">Manage Billing</button>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

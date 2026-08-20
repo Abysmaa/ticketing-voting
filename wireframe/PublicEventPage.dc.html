@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #fff; }
+    .btn-primary { background: #334155; color: #fff; border: none; border-radius: 3px; padding: 12px 20px; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .stepper { display:flex; align-items:center; border:1px solid #cbd5e1; border-radius:3px; }
+    .stepper div { width:26px; height:26px; display:flex; align-items:center; justify-content:center; font-size:13px; color:#334155; }
+    .sold-out-tag { font-size:11px; font-weight:700; color:#94a3b8; background:#f1f5f9; padding:6px 10px; border-radius:3px; }
+    .btn-disabled { background:#e2e8f0; color:#94a3b8; border:none; border-radius:3px; padding:12px 20px; font-size:13px; font-weight:700; }
+  </style>
+</helmet>
+<div style="width:700px; height:900px; box-sizing:border-box; display:flex; flex-direction:column; overflow:hidden;">
+  <div style="height:260px; background:#e2e8f0; border-bottom:1px dashed #94a3b8; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:13px; flex-shrink:0;">Event banner image</div>
+  <div style="flex:1; padding:28px 32px; display:flex; flex-direction:column; gap:20px; overflow:hidden;">
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <div style="font-size:22px; font-weight:800; color:#0f172a;">DevConf Jakarta 2026</div>
+      <div style="display:flex; gap:16px; font-size:12px; color:#64748b;">
+        <div>📅 12 Sep 2026, 09:00</div>
+        <div>📍 Balai Kartini, Jakarta</div>
+      </div>
+    </div>
+    <div style="font-size:13px; color:#475569; line-height:1.6;">
+      Annual developer conference bringing together engineers, designers, and product builders across Southeast Asia. Full day of talks, workshops, and networking.
+    </div>
+    <div style="height:1px; background:#e2e8f0;"></div>
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div style="font-size:13px; font-weight:700; color:#1e293b;">Select Tickets</div>
+      <sc-for list="{{tickets}}" as="t" hint-placeholder-count="3">
+        <div style="display:flex; justify-content:space-between; align-items:center; border:1px solid #e2e8f0; border-radius:4px; padding:12px 14px;">
+          <div>
+            <div style="font-size:13px; font-weight:600; color:#1e293b;">{{t.name}}</div>
+            <div style="font-size:11px; color:#94a3b8;">{{t.remainingLabel}}</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:16px;">
+            <div style="font-size:13px; font-weight:700; color:#1e293b;">{{t.price}}</div>
+            <sc-if value="{{soldOut}}" hint-placeholder-val="{{false}}"><span class="sold-out-tag">Sold Out</span></sc-if>
+            <sc-if value="{{isAvailable}}" hint-placeholder-val="{{true}}"><div class="stepper"><div>−</div><div>0</div><div>+</div></div></sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="padding:16px 32px; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; flex-shrink:0;">
+    <div>
+      <div style="font-size:11px; color:#94a3b8;">Total</div>
+      <div style="font-size:16px; font-weight:800; color:#0f172a;">Rp 0</div>
+    </div>
+    <sc-if value="{{isAvailable}}" hint-placeholder-val="{{true}}"><button class="btn-primary">Buy Ticket →</button></sc-if>
+    <sc-if value="{{soldOut}}" hint-placeholder-val="{{false}}"><button class="btn-disabled">Sold Out</button></sc-if>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"soldOut":{"editor":"boolean","default":false,"section":"State"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const soldOut = this.props.soldOut ?? false;
+    const remainingList = [20, 180, 15];
+    return {
+      soldOut,
+      isAvailable: !soldOut,
+      tickets: [
+        { name: 'Early Bird', price: 'Rp 150,000', remainingLabel: soldOut ? 'Sold out' : `${remainingList[0]} left` },
+        { name: 'Regular', price: 'Rp 200,000', remainingLabel: soldOut ? 'Sold out' : `${remainingList[1]} left` },
+        { name: 'VIP (incl. workshop)', price: 'Rp 450,000', remainingLabel: soldOut ? 'Sold out' : `${remainingList[2]} left` },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

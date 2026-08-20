@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f5f9; }
+    .btn-primary { background: #312e81; color: #fff; border: none; border-radius: 3px; padding: 7px 14px; font-size: 11px; font-weight: 600; cursor: pointer; }
+    .btn-danger { background:#fff; border:1px solid #fecaca; border-radius:3px; padding:7px 14px; font-size:11px; font-weight:600; color:#dc2626; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; }
+    .doc-thumb { width:44px; height:56px; border:1px solid #cbd5e1; border-radius:3px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-size:9px; color:#94a3b8; flex-shrink:0; }
+  </style>
+</helmet>
+<div style="display:flex; width:900px; height:600px; box-sizing:border-box;">
+  <div style="width:180px; flex-shrink:0; background:#1e1b4b; padding:20px 0; display:flex; flex-direction:column; gap:4px;">
+    <div style="color:#fff; font-weight:700; font-size:15px; padding:0 20px 4px;">Ticketing</div>
+    <div style="color:#a5b4fc; font-size:10px; font-weight:700; letter-spacing:.05em; padding:0 20px 16px;">ADMIN</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Overview</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Organizers</div>
+    <div style="color:#fff; background:#312e81; padding:9px 20px; font-size:12px; font-weight:600; border-left:3px solid #fff;">KYC Queue</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Payouts</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Audit Log</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Disputes</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Settings</div>
+  </div>
+  <div style="flex:1; display:flex; flex-direction:column; padding:24px 32px; gap:14px; box-sizing:border-box; overflow:hidden;">
+    <div>
+      <div style="font-size:19px; font-weight:700; color:#0f172a;">KYC Review Queue</div>
+      <div style="font-size:11px; color:#94a3b8;">3 pending, oldest first</div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:10px; flex:1; overflow:hidden;">
+      <sc-for list="{{items}}" as="k" hint-placeholder-count="3">
+        <div class="card" style="padding:14px 16px; display:flex; gap:14px; align-items:center;">
+          <div class="doc-thumb">PDF</div>
+          <div style="flex:1; display:flex; flex-direction:column; gap:2px;">
+            <div style="font-size:13px; font-weight:700; color:#1e293b;">{{k.name}}</div>
+            <div style="font-size:11px; color:#64748b;">Tax ID: {{k.taxId}}</div>
+            <div style="font-size:10px; color:#94a3b8;">Submitted {{k.date}}</div>
+          </div>
+          <button class="btn-primary">Approve</button>
+          <button class="btn-danger">Reject</button>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      items: [
+        { name: 'Kopi Konf Studio', taxId: '08.221.334.1-556.000', date: '3 days ago' },
+        { name: 'Nusantara Run Club', taxId: '09.887.221.4-112.000', date: '1 day ago' },
+        { name: 'Bandung Book Fair', taxId: '07.442.998.2-334.000', date: '6 hours ago' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

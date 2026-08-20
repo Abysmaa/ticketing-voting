@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: rgba(15,23,42,0.5); }
+    .btn-danger { background: #dc2626; color: #fff; border: none; border-radius: 3px; padding: 10px 18px; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .btn-outline { background:#fff; border:1px solid #cbd5e1; border-radius:3px; padding:10px 18px; font-size:13px; font-weight:600; color:#334155; }
+  </style>
+</helmet>
+<div style="width:900px; height:600px; box-sizing:border-box; display:flex; align-items:center; justify-content:center;">
+  <div style="width:440px; background:#fff; border-radius:8px; box-shadow:0 8px 30px rgba(0,0,0,0.15); display:flex; flex-direction:column; overflow:hidden;">
+    <div style="padding:20px 24px; border-bottom:1px solid #e2e8f0;">
+      <div style="font-size:15px; font-weight:800; color:#0f172a;">Cancel Event</div>
+      <div style="font-size:11px; color:#94a3b8;">DevConf Jakarta 2026</div>
+    </div>
+    <div style="padding:20px 24px; display:flex; flex-direction:column; gap:14px;">
+      <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:6px; padding:14px; display:flex; flex-direction:column; gap:6px;">
+        <div style="font-size:12px; font-weight:700; color:#991b1b;">This will refund 258 attendee</div>
+        <div style="font-size:11px; color:#7f1d1d; line-height:1.5;">Total Rp 43,500,000 will be refunded across all paid orders. The event page will show as Cancelled and can no longer be booked. This action cannot be undone.</div>
+      </div>
+      <div style="font-size:11px; color:#64748b;">Type the event name to confirm: <strong style="color:#1e293b;">DevConf Jakarta 2026</strong></div>
+      <div style="border:1px solid #cbd5e1; border-radius:3px; background:#fff; padding:9px 12px; font-size:12px; color:#94a3b8;">Type event name here...</div>
+    </div>
+    <div style="padding:16px 24px; border-top:1px solid #e2e8f0; display:flex; justify-content:flex-end; gap:12px;">
+      <button class="btn-outline">Keep Event</button>
+      <button class="btn-danger">Cancel Event & Refund All</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

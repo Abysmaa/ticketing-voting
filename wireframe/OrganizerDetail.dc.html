@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f5f9; }
+    .lbl { font-size: 11px; font-weight: 600; color: #475569; margin-bottom: 4px; }
+    .val { font-size: 12px; color: #1e293b; font-weight: 600; }
+    .field { border: 1px solid #cbd5e1; border-radius: 3px; background: #fff; padding: 8px 10px; font-size: 12px; color: #94a3b8; }
+    .btn-primary { background: #312e81; color: #fff; border: none; border-radius: 3px; padding: 8px 14px; font-size: 11px; font-weight: 600; cursor: pointer; }
+    .btn-outline { background:#fff; border:1px solid #cbd5e1; border-radius:3px; padding:8px 14px; font-size:11px; font-weight:600; color:#334155; }
+    .btn-danger { background:#fff; border:1px solid #fecaca; border-radius:3px; padding:8px 14px; font-size:11px; font-weight:600; color:#dc2626; }
+    .badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 3px; }
+    .badge-pending { background: #fef9c3; color: #a16207; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; }
+    .section-title { font-size: 12px; font-weight: 700; color: #1e293b; }
+  </style>
+</helmet>
+<div style="display:flex; width:900px; height:800px; box-sizing:border-box;">
+  <div style="width:180px; flex-shrink:0; background:#1e1b4b; padding:20px 0; display:flex; flex-direction:column; gap:4px;">
+    <div style="color:#fff; font-weight:700; font-size:15px; padding:0 20px 4px;">Ticketing</div>
+    <div style="color:#a5b4fc; font-size:10px; font-weight:700; letter-spacing:.05em; padding:0 20px 16px;">ADMIN</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Overview</div>
+    <div style="color:#fff; background:#312e81; padding:9px 20px; font-size:12px; font-weight:600; border-left:3px solid #fff;">Organizers</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">KYC Queue</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Payouts</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Audit Log</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Disputes</div>
+    <div style="color:#a5b4fc; padding:9px 20px; font-size:12px;">Settings</div>
+  </div>
+  <div style="flex:1; display:flex; flex-direction:column; padding:22px 32px; gap:16px; box-sizing:border-box; overflow:hidden;">
+    <div style="font-size:11px; color:#94a3b8;">Organizers / <span style="color:#312e81; font-weight:600;">Aquila Events</span></div>
+
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <div style="font-size:18px; font-weight:800; color:#0f172a;">Aquila Events</div>
+        <div style="font-size:11px; color:#94a3b8;">admin@aquilaevents.co.id · signed up 3 Feb 2026</div>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn-outline">View as Organizer</button>
+        <button class="btn-danger">Suspend</button>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:16px;">
+      <div class="card" style="flex:1; padding:14px; display:flex; flex-direction:column; gap:10px;">
+        <div class="section-title">Verification (KYC)</div>
+        <div style="display:flex; align-items:center; gap:8px;"><span class="badge badge-pending">PENDING REVIEW</span></div>
+        <div style="font-size:11px; color:#64748b;">Tax ID: 09.123.456.7-891.000</div>
+        <div style="font-size:11px; color:#4338ca; text-decoration:underline;">business_doc.pdf</div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-primary">Approve</button>
+          <button class="btn-danger">Reject</button>
+        </div>
+      </div>
+      <div class="card" style="flex:1; padding:14px; display:flex; flex-direction:column; gap:10px;">
+        <div class="section-title">Plan & Commission</div>
+        <div><div class="lbl">Plan Tier</div><div class="val">Paid</div></div>
+        <div><div class="lbl">Commission Rate Override</div><div class="field">5%</div></div>
+        <div><div class="lbl">Payout Bank</div><div class="val">BCA ••• 4821</div></div>
+      </div>
+    </div>
+
+    <div class="card" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+      <div style="padding:10px 16px; border-bottom:1px solid #e2e8f0; font-size:12px; font-weight:700; color:#1e293b;">Events</div>
+      <div style="display:flex; padding:8px 16px; font-size:10px; text-transform:uppercase; color:#94a3b8; border-bottom:1px solid #f1f5f9;">
+        <div style="width:40%;">Event</div><div style="width:20%;">Status</div><div style="width:20%;">Sold</div><div style="width:20%;">Revenue</div>
+      </div>
+      <sc-for list="{{events}}" as="e" hint-placeholder-count="3">
+        <div style="display:flex; padding:10px 16px; font-size:12px; color:#334155; border-bottom:1px solid #f8fafc;">
+          <div style="width:40%; font-weight:600;">{{e.title}}</div><div style="width:20%;">{{e.status}}</div><div style="width:20%;">{{e.sold}}</div><div style="width:20%; font-weight:600;">{{e.revenue}}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div class="card" style="padding:12px 16px; display:flex; flex-direction:column; gap:6px;">
+      <div class="section-title">Recent Activity (this organizer)</div>
+      <div style="font-size:11px; color:#64748b;">— No admin action logged yet for this organizer —</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      events: [
+        { title: 'DevConf Jakarta 2026', status: 'Published', sold: '258 / 300', revenue: 'Rp 43,500,000' },
+        { title: 'React Workshop Batch 3', status: 'Published', sold: '18 / 40', revenue: 'Rp 4,500,000' },
+        { title: 'Music Fest Weekend', status: 'Draft', sold: '0 / 1500', revenue: 'Rp 0' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
