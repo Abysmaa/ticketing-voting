@@ -6,31 +6,36 @@ Derived from `PRODUCT_SPEC.md` (PRD). This doc turn product scope into build-abl
 Answer *how* to build what PRD defines as MVP. Target: single-tenant ticketing platform, web checkout + web-based check-in scanner, Indonesia payment gateway.
 
 ## 2. Architecture Overview
-- **Web app** (organizer dashboard + attendee checkout) — single web app, server-rendered or SPA + API.
-- **API/backend** — REST (or GraphQL, TBD) serving web app + check-in scanner (also web-based, PWA).
-- **DB** — relational (Postgres recommended — strong fit for order/payment consistency, relational entity per PRD sect. 6).
-- **Async worker/queue** — for QR generation + email send after payment confirm, and payment webhook processing.
-- **Payment gateway integration** — unified gateway abstraction layer behind the API; buyer only ever sees payment METHODS (VA/e-wallet/QRIS/card), never a gateway name. v1 launches wired to **one** underlying gateway (Xendit or Midtrans — vendor pick is a business decision, both SDKs cover the needed methods); architecture supports adding the second gateway later without any buyer-facing or API-contract change. Webhook callback drives payment status either way.
-- **Check-in scanner** — PWA, browser camera access (`getUserMedia` / barcode-detector API), hit API to validate + mark check-in.
+- **Web app** (organizer dashboard + attendee checkout) — React SPA built with Vite and served as static assets from the same Cloudflare Worker.
+- **API/backend** — Hono REST API in that Worker, serving the web app and browser-based PWA scanner.
+- **DB** — Cloudflare D1 is the relational business record. It stores accounts, events, orders, payments, attendees, audit log, and idempotency/outbox records.
+- **Coordination** — one Durable Object per event serializes inventory reservation and duplicate check-in decisions; it is not the sole business record.
+- **Async** — Cloudflare Queues for QR/email delivery and post-commit work; Cloudflare Workflows for resilient batch cancellation/refund operations.
+- **Storage** — Cloudflare R2 for event assets, KYC documents, and generated QR/PDF artifacts.
+- **Payment gateway integration** — Xendit behind an API adapter; buyer only ever sees payment METHODS (VA/e-wallet/QRIS/card), never a gateway name. Webhook callback drives payment status. See `docs/adr/0001-xendit-payment-gateway.md`.
+- **Check-in scanner** — PWA, browser camera access (`getUserMedia` / barcode-detector API), with server-authoritative validation and idempotent check-in.
 
-```
-[Attendee/Organizer Browser] ---> [Web App / API] ---> [Postgres DB]
-                                        |      \
-                                        |       -> [Queue/Worker] -> [Email/QR gen]
-                                        v
-                              [Payment Gateway Webhook]
-[Check-in Scanner (PWA)] ---> [API: validate QR] ---> [DB: mark checked-in]
+```text
+[Attendee/Organizer Browser] -> [Worker: static React + Hono API] -> [D1 business record]
+                                         |         |       \
+                                         |         |        -> [Queues] -> [Resend email/QR]
+                                         |         -> [Event Durable Object]
+                                         -> [R2 private/public assets]
+[Xendit Webhook] -----------------------> [Worker: verified, idempotent payment transition]
+[Check-in Scanner PWA] -----------------> [Event Durable Object + D1 check-in record]
 ```
 
-## 3. Tech Stack (proposed — confirm with team)
-- Backend: Node.js (NestJS/Express) or similar — TBD based on team preference.
-- Frontend: React/Next.js — supports SPA dashboard + PWA scanner in one codebase.
-- DB: PostgreSQL.
-- Queue: Redis + BullMQ (or equivalent) for async job (email, QR gen).
-- File/asset storage: S3-compatible (event banner, QR image) — TBD provider.
-- Payment: Midtrans and/or Xendit SDK.
-- Auth: session/JWT. Both Organizer and Attendee get full account: **email + password** signup/login, plus **Google OAuth** social login. Separate account pools (organizer vs attendee), same auth mechanism/UI pattern. Attendee checkout still offers **guest-checkout** (no login required to buy) alongside "Log In / Sign Up" — logging in at checkout ties the order to the account so it shows in "My Tickets"; a pure guest order is reachable only via the emailed confirmation link, not the dashboard.
-- Forgot/reset password: standard email-link token flow (request → emailed link → set new password).
+## 3. Tech Stack (accepted v1 direction)
+- Runtime/API: Cloudflare Workers + Hono, one deployment with same-origin API.
+- Frontend: React + Vite. **No Next.js.**
+- DB: Cloudflare D1.
+- Coordination: Cloudflare Durable Objects, one deterministic object per event.
+- Async: Cloudflare Queues and Workflows.
+- File/asset storage: Cloudflare R2.
+- Payment: Xendit adapter (ADR 0001).
+- Auth: opaque server-side session cookie in D1. Both Organizer and Attendee get full account: **email + password** signup/login, plus **Google OAuth** social login. Separate role grants, same auth mechanism/UI pattern. Attendee checkout still offers **guest-checkout** (no login required to buy) alongside "Log In / Sign Up" — logging in at checkout ties the order to the account so it shows in "My Tickets"; a pure guest order is reachable only via the emailed confirmation link, not the dashboard.
+- Forgot/reset password: standard email-link token flow (request -> emailed link -> set new password).
+- Email: Resend behind a transactional-email adapter, invoked from idempotent Queue consumers after D1 commit (ADR 0004).
 
 ## 4. Data Model (expand PRD sect. 6 into schema draft)
 
@@ -90,10 +95,10 @@ Answer *how* to build what PRD defines as MVP. Target: single-tenant ticketing p
 | buyer_email | text | |
 | status | enum(pending, paid, free_confirmed, cancelled, refunded) | |
 | subtotal_amount | numeric | pre-tax ticket total |
-| tax_amount | numeric | PPN 11% — v1 assumption: ticket price shown to buyer is **tax-inclusive**, tax broken out on invoice for compliance (confirm w/ finance, sect. 7) |
+| tax_amount | numeric | Sandbox default is 0. Production tax/remitter policy is a finance/legal launch gate; do not label an invoice PPN-inclusive until it is approved. |
 | total_amount | numeric | subtotal + tax − discount |
 | commission_amount | numeric | computed at order time from organizer commission_rate, on **subtotal** (pre-tax) — confirm w/ finance |
-| payment_gateway | enum(midtrans, xendit, none) | none = free ticket |
+| payment_gateway | enum(xendit, none) | none = free ticket |
 | payment_ref | text | gateway transaction id |
 | created_at | timestamp | |
 
@@ -191,25 +196,20 @@ Answer *how* to build what PRD defines as MVP. Target: single-tenant ticketing p
 - **Data deletion/retention**: attendee/organizer must be able to request personal data deletion (Indonesia UU PDP compliance) — needs an endpoint + retention policy, not just a UI toggle.
 - **Legal pages**: Terms of Service, Privacy Policy, Refund Policy must exist and be linked (footer + checkout) — required both for UU PDP compliance and for Midtrans/Xendit merchant onboarding, which typically asks for these URLs. Content is legal/business-owned, not an engineering deliverable, but the page slots and links are.
 
-## 7. Open Technical Decisions (needs team input)
-- Auth provider — build password + Google OAuth in-house (bcrypt/argon2 + Google client) vs managed (Auth0, Clerk, Supabase Auth).
+## 7. Remaining Technical Decisions
+- Password-auth implementation — complete a Worker-compatible secure password-hashing spike; custom authentication is blocked until this passes.
 - Account-merge policy — same email registers via Google then later via password (or reverse): merge into one account or block second method? Flag in USER_FLOWS.md Flow 0.
-- REST vs GraphQL for API.
-- Exact free-tier limits (event count / attendee count cap).
-- Exact commission % rate, and whether per-organizer override needed.
-- Offline support requirement for check-in scanner.
-- Email provider for QR delivery (SES, SendGrid, etc).
-- **Which gateway launches v1 first** — Xendit vs Midtrans (business/cost decision; abstraction layer sect. 2 means this doesn't block architecture).
-- **PPN handling** — confirm tax-inclusive pricing assumption (sect. 4 Order) and whether platform or organizer is the remitting party, with finance/tax advisor.
-- **KYC provider/flow** — manual document review by platform team vs automated verification service (e.g. Privy, Verihubs) for organizer tax_id + document check.
+- Check-in offline policy — v1 must show an explicit offline failure and manual fallback; any local queue/sync design needs a separate conflict-resolution spec.
+- **PPN handling** — confirm production tax treatment and remitter with finance/tax advisor; sandbox tax remains zero (ADR 0003).
+- **KYC provider/flow** — v1 uses manual review per ADR 0002; reassess automated verification after the pilot.
 - **Category taxonomy** — confirm the fixed `category` enum list (conference/workshop/festival/meetup/other) with product before launch; adding a category later is a migration, not just a UI change.
 - **Timezone display default** — confirm whether to always show local event timezone, or convert to viewer's browser timezone with a "local time" label.
 
 ## 8. Explicitly Deferred (documented, not built for v1 — see PRD sect. 9)
 - ~~**Admin/platform-owner panel**~~ → **now IN v1** (sect. 4/5 `admin` entity + endpoints). **Dispute-resolution workflow specifically stays deferred** — no ticketing/case system, disputes handled manually outside the product for v1.
 - **Bulk refund** (multi-order at once, distinct from whole-event cancel above) — v1 ships single-order refund only. Deferred post-v1.
-- **Commission reversal on refund** — default v1 assumption: commission is earned at successful payment and is **not** reversed on refund (platform absorbs no loss on cancelled orders). Needs explicit finance/business sign-off before launch — flag if this assumption is wrong.
+- **Commission reversal on refund** — sandbox policy reverses platform commission for a fully refunded order (ADR 0003). Production financial treatment still needs explicit finance/business sign-off before launch.
 - **Ticket transfer / attendee name change** — common real-world request, not scoped for v1. Attendee is locked to whoever registered.
 - **Waitlist when sold out** — no queue/notify-when-available mechanism in v1; sold-out ticket type just shows unavailable.
-- **Organizer/event moderation** — no review/approval step before an event goes public in v1; any verified-or-not organizer can publish and collect payment immediately. Trust & safety risk to revisit once volume justifies it.
+- **Organizer/event moderation** — no pre-publish content-moderation queue in v1. However, verified KYC is required before any organizer can publish or accept registrations (ADR 0002); trust-and-safety content review remains a later concern.
 - **WhatsApp notification channel** — QR ticket + order updates are email-only in v1, despite WhatsApp being the dominant channel in the Indonesia market. Worth prioritizing early post-v1.

@@ -21,9 +21,9 @@ Build order for MVP, derived from `PRODUCT_SPEC.md` + `TRD.md`. Each phase = shi
 *Depends on: Phase 1 (needs published event + ticket type to sell)*
 - Public event page → cart → attendee info form.
 - Free registration path (no payment, direct confirm).
-- Paid path: single gateway integration (Xendit or Midtrans, TBD sect. 7) behind the abstraction layer (TRD sect. 2) — buyer only sees payment methods, not the gateway name.
+- Paid path: Xendit integration behind the abstraction layer (TRD sect. 2; ADR 0001) — buyer only sees payment methods, not the gateway name.
 - Payment pending/failed status page + retry action.
-- Order + commission calc (percentage model, per PRD decision) + tax breakdown (subtotal/tax/total, PPN 11% assumption).
+- Order + commission calc (5% sandbox default on paid ticket subtotal, configuration-driven) + subtotal/discount/tax fields. Sandbox tax is zero; production tax treatment remains a finance/legal gate.
 - QR generation + email delivery on order success (async worker).
 
 **Exit criteria**: attendee can buy paid ticket end-to-end and receive QR email; free registration also works; a failed/pending payment shows a clear retry path instead of a dead end.
@@ -62,12 +62,11 @@ Build order for MVP, derived from `PRODUCT_SPEC.md` + `TRD.md`. Each phase = shi
 **Note**: base email/password auth (organizer side) is actually needed as early as Phase 0 for organizer login — this phase 4b entry covers the full build-out including Google OAuth, password reset, and the attendee-facing "My Tickets" dashboard once order data exists (Phase 2).
 
 ## Phase 5 — Plan Tier & Promo (Week 7-8)
-- Free vs Paid plan tier enforcement (event/attendee cap — limit TBD, see TRD sect. 7).
+- Free plan enforcement uses the sandbox cap: 3 concurrently published events and 500 total tickets per event (ADR 0003); paid-tier billing remains disabled until commercial approval.
 - Promo code (basic, event/ticket-type scoped).
-- Organizer billing/upgrade flow (paid tier).
-- Payout disbursement wired to `verification_status = verified` gate (Phase 4 KYC) — unverified organizer accrues revenue but can't withdraw.
+- Payout uses manual weekly disbursement, no earlier than 7 days after event end, only after KYC verification (ADR 0002).
 
-**Exit criteria**: free tier capped correctly, upgrade path works, promo code applies discount at checkout, payout blocked until organizer KYC verified.
+**Exit criteria**: free tier cap is enforced, promo code applies discount at checkout, and payout is blocked until organizer KYC is verified. Public paid-tier billing remains disabled pending commercial approval.
 
 ## Phase 6a — Admin Dashboard (Week 8, parallel-safe with Phase 5/6)
 *Scope below is the light version. See `ADMIN_SPEC.md` for the full page-by-page plan (7 "Must" pages vs the 2 listed here) — re-scope this phase once that doc is confirmed.*
@@ -117,4 +116,4 @@ Phase 0 (Foundation)
 
 ## Notes
 - Timeline (Week N) = rough estimate, not committed — adjust once team size/velocity known.
-- Exact commission %, free-tier limit, payout schedule still TBD (TRD sect. 7) — must lock before Phase 2/5 start.
+- Sandbox defaults are documented in `docs/adr/0003-sandbox-commercial-policy.md`; production finance/legal approval remains a launch gate.

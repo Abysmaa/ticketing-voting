@@ -8,6 +8,8 @@ General-purpose ticketing/registration platform. Not locked to one event type â€
 - Attendee: browse event, buy ticket / register, get QR ticket, check-in at gate. Includes both Guest (no account) and logged-in Customer state. *(Full page plan: `CUSTOMER_SPEC.md`)*
 - Admin (platform owner): oversee organizers, take commission, handle disputes. *(Full page plan: `ADMIN_SPEC.md`)*
 
+Business model, launch segment, unit economics, pilot metrics, and operating model are defined in `docs/business/business-model.md`.
+
 ## 3. Event Type Support
 - **Single-day event**: conference, workshop, meetup. One date, one venue, simple ticket tiers.
 - **Multi-day festival**: multi-stage, multi-day pass, add-on item (merch, camping, parking), per-day or full-pass ticket.
@@ -55,11 +57,11 @@ General-purpose ticketing/registration platform. Not locked to one event type â€
 - Marketing tools (email campaign, discount automation) â€” only basic promo code in v1.
 
 ## 5. Payment
-- Gateway: Midtrans and/or Xendit (Indonesia local, cover VA, e-wallet, QRIS, card).
-- Platform commission model: **percentage (%) per ticket sold**. Exact rate TBD (business/pricing decision, not technical).
-- Organizer plan tier: **Free + Paid tier**. Free tier limited (event/attendee cap, TBD), paid tier unlock higher cap and/or lower commission.
-- Payout to organizer: manual or scheduled disbursement (TBD, depend on gateway split-payment support). **Gated on organizer KYC verification** (tax ID + document) â€” required by gateway before payout enabled.
-- Tax: ticket price shown to buyer is **tax-inclusive** (PPN 11%), broken out as a line item on invoice for compliance. Assumption â€” confirm w/ finance.
+- Gateway: **Xendit** for v1 (VA, e-wallet, QRIS, card), behind a gateway adapter. See `docs/adr/0001-xendit-payment-gateway.md`.
+- Platform commission model: percentage (%) per paid ticket sold. **Sandbox/pilot default: 5% of paid ticket subtotal**, configuration-driven and subject to business approval.
+- Organizer plan tier: Free is enabled in MVP with a sandbox cap of 3 concurrently published events and 500 total tickets per event. Paid-tier data exists but public billing/upgrade is disabled until commercial pricing is confirmed.
+- Payout to organizer: manual weekly, no earlier than 7 days after event end. **Verified KYC is required before public event publishing, accepting registrations, and payout.** See `docs/adr/0002-organizer-kyc-and-payout-policy.md`.
+- Tax: sandbox invoices calculate no tax (`tax_amount = 0`) and must not claim PPN. Production paid launch is blocked pending finance/tax approval of price display, remitter, and invoice treatment. See `docs/adr/0003-sandbox-commercial-policy.md`.
 
 ## 6. Key Entities (draft data model)
 - `Organizer` â€” account that owns events.
@@ -77,9 +79,9 @@ General-purpose ticketing/registration platform. Not locked to one event type â€
 - ~~Multi-tenant timeline~~ â†’ **Stays v2**, confirmed out of v1 scope.
 
 ### Still open (lower priority, resolve during build)
-- Exact commission % rate.
-- Free tier limit (max event / max attendee count).
-- Payout schedule (manual vs automatic disbursement).
+- Worker-compatible secure password-hashing implementation for email/password authentication.
+- Exact production tax/PPN treatment and remitter, after finance/tax approval.
+- Whether/when to enable public Paid-tier billing after the pilot.
 
 ## 8. Later / v2+
 - Multi-org accounts, team roles, custom branding/subdomain.
